@@ -1,6 +1,6 @@
 
 <?php
-    require_once 'usuarios.php';
+    require_once 'CLASSES/usuarios.php';
     $u = new Usuarios;
 ?>
 
@@ -22,7 +22,7 @@
             </form>
         </div>
         <?php 
-            if(isset($_POST['nome'])){
+            if(isset($_POST['email'])){
                 $email = addslashes($_POST['email']);
                 $senha = addslashes($_POST['senha']);
                 //verificar se esta preenchido
@@ -30,15 +30,27 @@
                     $u->conectar("projeto_login", "localhost", "root", "");
                     if($u->msgErro == ""){
                         if($u->logar($email, $senha)){
-                            header("AreaPrivada.php");
+                            header("location: AreaPrivada.php");
                         }else{
-                            echo "Email e/ou senha estão incorretos!";
+                            ?>
+                                <div class="msg-erro"> 
+                                    Email e/ou senha estão incorretos
+                                </div>
+                            <?php
                         }
                     }else{
-                        echo "Erro: ".$u->msgErro;
+                        ?>
+                            <div class="msg-erro">
+                                <?php echo "Erro: ".$u->msgErro; ?>
+                            </div>
+                        <?php
                     }
                 }else{
-                    echo "Preencha todos os campos!";
+                    ?>
+                        <div class="msg-erro">
+                            Preencha todos os campos!
+                        </div>
+                    <?php
                 }
             }
         ?>
